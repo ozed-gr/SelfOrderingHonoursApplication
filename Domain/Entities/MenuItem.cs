@@ -21,6 +21,11 @@ namespace Domain.Entities
         public string Image { get; set; }
         public List<ItemIngredient> ItemIngredients { get; set; }
 
+        public MenuItem()
+        {
+
+        }
+
         public MenuItem(string p_name, string p_desc, double p_price)
         {
             Name = p_name;

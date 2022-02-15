@@ -36,5 +36,7 @@ namespace Infrastructure.EntityFramework
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<ItemIngredient> ItemIngredients { get; set; }
+
+
     }
 }
