@@ -2,6 +2,96 @@
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
+<div class="container">
+    <div class="row">
+        <div class="col ">
+            <NavLink class="nav-link active" href="/">
+                Starters
+            </NavLink>
+        </div>
+        <div class="col ">
+            <NavLink class="nav-link active" href="/">
+                Mains
+            </NavLink>
+        </div>
+        <div class="col ">
+            <NavLink class="nav-link active" href="/">
+                Desserts
+            </NavLink>
+        </div>
+        <div class="col ">
+            <NavLink class="nav-link active" href="/">
+                Drinks
+            </NavLink>
+        </div>
+    </div>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+<!--Starters-->
+@*<MenuItemsList>
+    <AddHere>
+        @foreach (var item in starters.MenuItems)
+        {
+            //even
+            @if (@counter % 2 == 0)
+            {
+                ChangeToTrue();
+                <CardMenuItem CardTitle="@item.Name" CardDesc="@item.Description"></CardMenuItem>
+            }
+            else
+            {
+                ChangeToFalse();
+            }
+            IncrementCount();
+        }
+    </AddHere>
+    <AddOtherHere>
+        @if (@counter != 0)
+        {
+            ResetCount();
+        }
+        @foreach (var item in starters.MenuItems)
+        {
+            //odd
+            @if (@counter % 2 != 0)
+            {
+                <CardMenuItem CardTitle="@item.Name" CardDesc="@item.Description"></CardMenuItem>
+            }
+            IncrementCount();
+        }
+    </AddOtherHere>
+</MenuItemsList>*@
+
+<!--Mains-->
+
+@code{
+    //public Application.TestClass starters = new Application.TestClass();
+    //public bool even = false;
+    //public int counter = 0;
+
+    //public void ResetCount()
+    //{
+    //    counter = 0;
+    //}
+
+    //private void IncrementCount()
+    //{
+    //    counter++;
+    //}
+
+    //private void ChangeToTrue()
+    //{
+    //    even = true;
+    //}
+
+    //private void ChangeToFalse()
+    //{
+    //    even = false;
+    //}
+
+    //protected override void OnInitialized()
+    //{
+
+    //}
+}

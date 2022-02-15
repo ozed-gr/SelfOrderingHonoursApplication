@@ -1,0 +1,18 @@
+﻿<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg">
+            @AddHere
+        </div>
+        <div class="col-lg">
+            @AddOtherHere
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment AddHere { get; set; }
+    [Parameter]
+    public RenderFragment AddOtherHere { get; set; }
+
+}

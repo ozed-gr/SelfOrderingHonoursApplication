@@ -17,6 +17,15 @@ namespace Domain.Entities
         public double Price { get; set; }
         [Required]
         public string Category { get; set; }
+        public string Description { get; set; }
+        public string Image { get; set; }
         public List<ItemIngredient> ItemIngredients { get; set; }
+
+        public MenuItem(string p_name, string p_desc, double p_price)
+        {
+            Name = p_name;
+            Description = p_desc;
+            Price = p_price;
+        }
     }
 }
