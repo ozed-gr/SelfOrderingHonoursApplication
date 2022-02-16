@@ -1,7 +1,7 @@
 ﻿<div class="bg-danger align-content-center">
 
     <Card Margin="Margin.Is4.OnY">
-        <CardImage Source="C:\Users\Orestis\source\repos\Demo\Demo\Images" Alt="Placeholder image">
+        <CardImage Source=@_image Alt="Placeholder image">
         </CardImage>
         <CardBody>
             <CardTitle Class="text-black-50" Size="5">@CardTitle</CardTitle>
@@ -20,4 +20,8 @@
     public string CardTitle { get; set; }
     [Parameter]
     public string CardDesc { get; set; }
+    [Parameter]
+    public string Image { get; set; }
+
+    private string _image = $"/images/rsz_bloodymarycrumpets.jpg";
 }

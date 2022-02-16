@@ -4,7 +4,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col ">
+        <div class="col">
             <NavLink class="nav-link active" href="/">
                 Starters
             </NavLink>
@@ -29,15 +29,15 @@
 
 
 <!--Starters-->
-@*<MenuItemsList>
+<MenuItemsList>
     <AddHere>
-        @foreach (var item in starters.MenuItems)
+        @foreach (var item in menuList)
         {
             //even
             @if (@counter % 2 == 0)
             {
                 ChangeToTrue();
-                <CardMenuItem CardTitle="@item.Name" CardDesc="@item.Description"></CardMenuItem>
+                <CardMenuItem CardTitle="@item.Name" CardDesc="@item.Description" Image="@item.Image"></CardMenuItem>
             }
             else
             {
@@ -51,7 +51,7 @@
         {
             ResetCount();
         }
-        @foreach (var item in starters.MenuItems)
+        @foreach (var item in menuList)
         {
             //odd
             @if (@counter % 2 != 0)
@@ -61,37 +61,7 @@
             IncrementCount();
         }
     </AddOtherHere>
-</MenuItemsList>*@
+</MenuItemsList>
 
 <!--Mains-->
 
-@code{
-    //public Application.TestClass starters = new Application.TestClass();
-    //public bool even = false;
-    //public int counter = 0;
-
-    //public void ResetCount()
-    //{
-    //    counter = 0;
-    //}
-
-    //private void IncrementCount()
-    //{
-    //    counter++;
-    //}
-
-    //private void ChangeToTrue()
-    //{
-    //    even = true;
-    //}
-
-    //private void ChangeToFalse()
-    //{
-    //    even = false;
-    //}
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-}

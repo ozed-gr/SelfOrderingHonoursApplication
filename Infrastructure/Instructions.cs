@@ -51,7 +51,7 @@ namespace Infrastructure
             return Task.Run(() => item);
         }
 
-        public Task<List<MenuItem>> GetMenuItemListByMenuType()
+        public Task<List<MenuItem>> GetMenuItemListByMenuType(string p_type)
         {
             throw new NotImplementedException();
         }

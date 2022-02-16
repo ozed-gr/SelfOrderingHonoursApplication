@@ -25,7 +25,7 @@ namespace SelfOrderingClientUI.Pages
         {
             base.OnInitialized();
             //createMenuItem.Execute(2);
-            var item = getMenuItem.Execute(0).Result;
+            var item = getMenuItem.Execute(1).Result;
             menuItemDTO = item;
         }
 

@@ -35,13 +35,15 @@ namespace SelfOrderingClientUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EntityFrameworkDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             //An object repository that has the framework implementation from the Infrastructure layer will be created
-            services.AddSingleton<IMenuItemRepository, Instructions>();
+            services.AddScoped<IMenuItemRepository, SqliteDB>();
             //Use cases
             services.AddTransient<ICreateMenuItem, CreateMenuItem>();
             services.AddTransient<IGetMenuItemById, GetMenuItemById>();
+            services.AddTransient<IGetAllMenuTypeMenuItems, GetAllMenuTypeMenuItems>();
 
             services.AddBlazorise(options =>
               { options.ChangeTextOnKeyPress = true; })
