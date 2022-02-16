@@ -37,6 +37,6 @@ namespace Infrastructure.EntityFramework
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<ItemIngredient> ItemIngredients { get; set; }
 
-
+        
     }
 }

@@ -1,6 +1,9 @@
+using Application.Repositories.MenuItemRepositories;
+using Application.UseCases.MenuItemUseCases;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using Infrastructure;
 using Infrastructure.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -32,6 +35,13 @@ namespace SelfOrderingClientUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EntityFrameworkDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            //An object repository that has the framework implementation from the Infrastructure layer will be created
+            services.AddSingleton<IMenuItemRepository, Instructions>();
+            //Use cases
+            services.AddTransient<ICreateMenuItem, CreateMenuItem>();
+            services.AddTransient<IGetMenuItemById, GetMenuItemById>();
 
             services.AddBlazorise(options =>
               { options.ChangeTextOnKeyPress = true; })

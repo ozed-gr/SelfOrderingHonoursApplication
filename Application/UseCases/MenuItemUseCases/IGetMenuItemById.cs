@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.DTOs;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace Application.UseCases.MenuItemUseCases
 {
-    public interface ICreateMenuItem
+    public interface IGetMenuItemById
     {
-        //create menu item using its id as a reference
-        Task Execute(int p_id);
+        Task<MenuItemDTO> Execute(int p_id);
     }
 }

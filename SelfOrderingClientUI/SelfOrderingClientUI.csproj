@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Blazorise" Version="0.9.5.5" />
     <PackageReference Include="Blazorise.Bootstrap" Version="0.9.5.5" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.5.5" />

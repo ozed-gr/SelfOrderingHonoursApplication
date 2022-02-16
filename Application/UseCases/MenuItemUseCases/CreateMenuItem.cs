@@ -1,4 +1,5 @@
 ﻿using Application.Repositories.MenuItemRepositories;
+using AutoMapper;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,18 +13,22 @@ namespace Application.UseCases.MenuItemUseCases
     {
 
         private readonly IMenuItemRepository _menuItemRepository;
+        private IMapper _mapper;
 
-        public CreateMenuItem(IMenuItemRepository menuItemRepository)
+        public CreateMenuItem(IMenuItemRepository menuItemRepository, IMapper mapper)
         {
             _menuItemRepository = menuItemRepository;
+            _mapper = mapper;
         }
 
-        public async Task<MenuItem> Execute(int p_id)
+        public async Task Execute(int p_id)
         {
             int id = p_id;
+            //await will suspend the Execute method completion until the Create method is completed
             await _menuItemRepository.Create(id);
-
-            throw new NotImplementedException();
+            
+            //for some reason this loops
+            //return await Task.FromResult(await _menuItemRepository.Create(id));
         }
     }
 }
