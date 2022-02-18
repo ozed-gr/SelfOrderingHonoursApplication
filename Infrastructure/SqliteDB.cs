@@ -37,13 +37,23 @@ namespace Infrastructure
 
         public Task<List<MenuItem>> GetMenuItemListByMenuType(string p_type)
         {
-            var query = from t in _dbContext.MenuItems
-                        where t.Category=="Starter"
-                        select t;
+            try
+            {
+                var query = from t in _dbContext.MenuItems
+                            where t.Category == p_type
+                            select t;
 
-            var result = query.ToList();
+                var result = query.ToList();
 
-            return Task.FromResult(result);
+                if (result.Count != 0) 
+                { return Task.FromResult(result); }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return Task.FromResult(new List<MenuItem>());
         }
     }
 }

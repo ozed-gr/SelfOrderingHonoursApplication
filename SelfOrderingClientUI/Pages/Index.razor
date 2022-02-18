@@ -1,25 +1,30 @@
 ﻿@page "/"
+@page "/Starter"
+@page "/Main"
+@page "/Dessert"
+
+@layout MainLayout
 
 <h1>Hello, world!</h1>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col">
-            <NavLink class="nav-link active" href="/">
+        <div class="col-6 col-lg-3">
+            <NavLink class="nav-link active" href="/Starter">
                 Starters
             </NavLink>
         </div>
-        <div class="col ">
-            <NavLink class="nav-link active" href="/">
+        <div class="col-6 col-lg-3">
+            <NavLink class="nav-link active" href="/Main" @onclick="StateHasChanged">
                 Mains
             </NavLink>
         </div>
-        <div class="col ">
-            <NavLink class="nav-link active" href="/">
+        <div class="col-6 col-lg-3">
+            <NavLink class="nav-link active" href="/" @onclick="StateHasChanged">
                 Desserts
             </NavLink>
         </div>
-        <div class="col ">
+        <div class="col-6 col-lg-3">
             <NavLink class="nav-link active" href="/">
                 Drinks
             </NavLink>
@@ -28,40 +33,6 @@
 </div>
 
 
-<!--Starters-->
-<MenuItemsList>
-    <AddHere>
-        @foreach (var item in menuList)
-        {
-            //even
-            @if (@counter % 2 == 0)
-            {
-                ChangeToTrue();
-                <CardMenuItem CardTitle="@item.Name" CardDesc="@item.Description" Image="@item.Image"></CardMenuItem>
-            }
-            else
-            {
-                ChangeToFalse();
-            }
-            IncrementCount();
-        }
-    </AddHere>
-    <AddOtherHere>
-        @if (@counter != 0)
-        {
-            ResetCount();
-        }
-        @foreach (var item in menuList)
-        {
-            //odd
-            @if (@counter % 2 != 0)
-            {
-                <CardMenuItem CardTitle="@item.Name" CardDesc="@item.Description"></CardMenuItem>
-            }
-            IncrementCount();
-        }
-    </AddOtherHere>
-</MenuItemsList>
-
-<!--Mains-->
-
+<div>
+    <MenuPage @ref="refMenuPage" MenuPageName=@menuPageTitle></MenuPage>
+</div>

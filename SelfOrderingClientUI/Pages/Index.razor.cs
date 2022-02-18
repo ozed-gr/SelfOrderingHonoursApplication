@@ -8,39 +8,43 @@ using System.Threading.Tasks;
 
 namespace SelfOrderingClientUI.Pages
 {
-    public partial class Index
+    public partial class Index 
     {
         [Inject]
         IGetAllMenuTypeMenuItems createMenuItem { get; set; }
+        [Inject]
+        NavigationManager Navigation { get; set; }
 
+        private MenuPage refMenuPage;
+        private string menuPageTitle;
+        private string newMenuPageTitle;
         private List<MenuItemDTO> menuList;
         private string _image = "";
+
+        //On first time being rendered
         protected override void OnInitialized()
         {
             menuList = createMenuItem.Execute("starters").Result;
+            menuPageTitle = GetMenuPageTitle();
         }
 
-        public bool even = false;
-        public int counter = 0;
-
-        public void ResetCount()
+        //On first render and every re-rendering event
+        protected override void OnAfterRender(bool firstRender)
         {
-            counter = 0;
+            base.OnAfterRender(firstRender);
+            menuPageTitle = GetMenuPageTitle();
+            menuList = createMenuItem.Execute(menuPageTitle).Result;
         }
 
-        private void IncrementCount()
+        private string GetMenuPageTitle()
         {
-            counter++;
+           return Navigation.Uri.Substring(Navigation.Uri.LastIndexOf('/') + 1);
         }
 
-        private void ChangeToTrue()
+        private void ShowMenuPageTitle()
         {
-            even = true;
+            newMenuPageTitle = refMenuPage.GetPageName();
         }
 
-        private void ChangeToFalse()
-        {
-            even = false;
-        }
     }
 }

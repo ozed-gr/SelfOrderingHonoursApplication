@@ -1,0 +1,22 @@
+﻿
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="@Image" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">@CardTitle</h5>
+        <p class="card-text">@CardDesc</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string CardTitle { get; set; }
+    [Parameter]
+    public string CardDesc { get; set; }
+    [Parameter]
+    public string Image { get; set; }
+
+    private string _image = $"/images/shrimpCocktail.jpg";
+
+}
+
