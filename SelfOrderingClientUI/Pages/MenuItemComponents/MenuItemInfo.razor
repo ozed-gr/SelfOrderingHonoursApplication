@@ -1,0 +1,17 @@
+﻿@page "/item/{Id:int?}"
+
+<p>Item @menuItem.Name</p>
+<br />
+<p>Ingredients:</p>
+@foreach (var ingr in menuItem.ItemIngredients)
+{
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">@ingr.Name</h5>
+            <p class="card-text">@ingr.Category</p>
+        </div>
+    </div>
+}
+
+
+

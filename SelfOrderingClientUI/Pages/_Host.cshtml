@@ -24,7 +24,8 @@
     <!--Blazorise settings end-->
 </head>
 <body>
-    <component type="typeof(App)" render-mode="ServerPrerendered" />
+    @*render-mode="ServerPrerendered"*@
+    <component type="typeof(App)" render-mode="Server" />
 
     <div id="blazor-error-ui">
         <environment include="Staging,Production">

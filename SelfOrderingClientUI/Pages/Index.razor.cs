@@ -1,6 +1,7 @@
 ﻿using Application.DTOs;
-using Application.UseCases.MenuItemUseCases;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,32 +9,34 @@ using System.Threading.Tasks;
 
 namespace SelfOrderingClientUI.Pages
 {
-    public partial class Index 
+    public partial class Index : IDisposable
     {
-        [Inject]
-        IGetAllMenuTypeMenuItems createMenuItem { get; set; }
         [Inject]
         NavigationManager Navigation { get; set; }
 
-        private MenuPage refMenuPage;
         private string menuPageTitle;
         private string newMenuPageTitle;
-        private List<MenuItemDTO> menuList;
+
         private string _image = "";
 
         //On first time being rendered
         protected override void OnInitialized()
         {
-            menuList = createMenuItem.Execute("starters").Result;
-            menuPageTitle = GetMenuPageTitle();
+            menuPageTitle = "Starter";
+            Navigation.LocationChanged += LocationChanged;
+            Console.WriteLine("Index OnInitialised");
         }
 
         //On first render and every re-rendering event
         protected override void OnAfterRender(bool firstRender)
         {
             base.OnAfterRender(firstRender);
+            //when the user interact with the nav bar then this happens,
+            if(!firstRender)
             menuPageTitle = GetMenuPageTitle();
-            menuList = createMenuItem.Execute(menuPageTitle).Result;
+
+            Console.WriteLine("Index OnAfterRender, FirstRender: ", firstRender.ToString());
+
         }
 
         private string GetMenuPageTitle()
@@ -41,10 +44,24 @@ namespace SelfOrderingClientUI.Pages
            return Navigation.Uri.Substring(Navigation.Uri.LastIndexOf('/') + 1);
         }
 
-        private void ShowMenuPageTitle()
+        private void LocationChanged(object o, LocationChangedEventArgs lea)
         {
-            newMenuPageTitle = refMenuPage.GetPageName();
+            bool isNavChanged = lea.IsNavigationIntercepted;
+            string locat = lea.Location;
+            menuPageTitle = GetMenuPageTitle();
+            StateHasChanged();
         }
 
+
+        private void Navigation_LocationChanged(object sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IDisposable.Dispose()
+        {
+            //Unsubscribe from the event when our component is disposed
+            Navigation.LocationChanged -= LocationChanged;
+        }
     }
 }

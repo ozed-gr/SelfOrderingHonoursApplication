@@ -16,6 +16,10 @@ namespace Application.DTOs
             CreateMap<MenuItem, MenuItemDTO>();
             CreateMap<Task<MenuItem>, MenuItemDTO>();
             CreateMap<Task<MenuItemDTO>, MenuItemDTO>();
+            CreateMap<ItemIngredient, IngredientDTO>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Ingredient.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Ingredient.Name))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Ingredient.Category));
         }
     }
 }

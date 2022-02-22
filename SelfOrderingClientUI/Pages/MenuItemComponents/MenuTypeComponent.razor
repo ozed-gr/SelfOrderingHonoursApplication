@@ -1,0 +1,12 @@
+﻿<div class="container">
+    <div class="row justify-content-center">
+        @foreach (var item in menuList)
+        {
+            <div class="col-sm-12 col-lg-6">
+                <MenuItemCard CardTitle="@item.Name" CardDesc="@item.Description" Image="@item.Image" Id="item.Id"></MenuItemCard>
+            </div>
+        }
+    </div>
+</div>
+
+
