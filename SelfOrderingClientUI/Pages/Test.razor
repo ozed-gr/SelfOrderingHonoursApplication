@@ -1,0 +1,42 @@
+﻿@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@page "/test"
+
+<div class="modal fade show" id="myModal" style="display:block; background-color:gray;" aria-modal="true" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Hello! What table are you on?</h4>
+            </div>
+            <div class="modal-body">
+                <input type="number" @bind="@Table" />
+                <b />
+                <p>@Table</p>
+            </div>
+            <div class="modal-footer">
+                <Button class="btn-success" @onclick="DialogOk">OK</Button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int Table { get; set; }
+    [Parameter]
+    public EventCallback<bool> OnClose { get; set;}
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await sessionStorage.SetItemAsync("tableId", Table);
+        var name = await sessionStorage.GetItemAsync<string>("tableId");
+    }
+
+    private Task DialogOk()
+    {
+        return OnClose.InvokeAsync(true);
+    }
+}

@@ -1,8 +1,8 @@
 ﻿@page "/item/{Id:int?}"
 
-<p>Item @menuItem.Name</p>
+<h1>@menuItem.Name</h1>
 <br />
-<p>Ingredients:</p>
+<h3>Ingredients:</h3>
 @foreach (var ingr in menuItem.ItemIngredients)
 {
     <div class="card" style="width: 18rem;">

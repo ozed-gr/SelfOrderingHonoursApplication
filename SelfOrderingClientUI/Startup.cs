@@ -1,5 +1,8 @@
+using Application.DTOs;
 using Application.Repositories.MenuItemRepositories;
 using Application.UseCases.MenuItemUseCases;
+using Application.UseCases.OrderUseCases;
+using Blazored.Toast;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
@@ -18,6 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Blazored.SessionStorage;
 
 namespace SelfOrderingClientUI
 {
@@ -34,16 +39,22 @@ namespace SelfOrderingClientUI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddBlazoredSessionStorage();
+
             services.AddDbContext<EntityFrameworkDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             //An object repository that has the framework implementation from the Infrastructure layer will be created
             services.AddScoped<IMenuItemRepository, SqliteDB>();
+            services.AddScoped<IOrderRepository, SqliteDBOrdersContext>();
             //Use cases
             services.AddTransient<ICreateMenuItem, CreateMenuItem>();
             services.AddTransient<IGetMenuItemById, GetMenuItemById>();
             services.AddTransient<IGetAllMenuTypeMenuItems, GetAllMenuTypeMenuItems>();
+            services.AddTransient<IChangeOrderAddMenuItem, ChangeOrderAddMenuItem>();
+
+            services.AddBlazoredToast();
 
             services.AddBlazorise(options =>
               { options.ChangeTextOnKeyPress = true; })

@@ -1,4 +1,5 @@
-﻿using Application.Repositories.MenuItemRepositories;
+﻿using Application.Repositories.Common;
+using Application.Repositories.MenuItemRepositories;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure
 {
-    public class SqliteDB : IMenuItemRepository 
+    public class SqliteDB : IMenuItemRepository
     {
         private readonly EntityFrameworkDbContext _dbContext;
 

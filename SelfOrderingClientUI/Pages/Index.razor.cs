@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazored.SessionStorage;
 
 namespace SelfOrderingClientUI.Pages
 {
@@ -14,8 +15,12 @@ namespace SelfOrderingClientUI.Pages
         [Inject]
         NavigationManager Navigation { get; set; }
 
+        [Inject]
+        Blazored.SessionStorage.ISessionStorageService sessionStorage { get; set; }
+
         private string menuPageTitle;
         private string newMenuPageTitle;
+        private bool closeDialog = false;
 
         private string _image = "";
 
@@ -36,7 +41,11 @@ namespace SelfOrderingClientUI.Pages
             menuPageTitle = GetMenuPageTitle();
 
             Console.WriteLine("Index OnAfterRender, FirstRender: ", firstRender.ToString());
+        }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            var name = await sessionStorage.GetItemAsync<string>("tableId");
         }
 
         private string GetMenuPageTitle()
@@ -62,6 +71,18 @@ namespace SelfOrderingClientUI.Pages
         {
             //Unsubscribe from the event when our component is disposed
             Navigation.LocationChanged -= LocationChanged;
+        }
+
+        public void TableIdDialogOpen()
+        {
+            closeDialog = true;
+            StateHasChanged();
+        }
+
+        public void TableIdDialogClose(bool p_bool)
+        {
+            closeDialog = true;
+            StateHasChanged();
         }
     }
 }

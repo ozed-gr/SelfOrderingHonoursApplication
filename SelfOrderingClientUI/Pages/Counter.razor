@@ -1,4 +1,5 @@
 ﻿@page "/counter"
+@inject IToastService Toast
 
 <h1>Counter</h1>
 
@@ -12,5 +13,11 @@
     private void IncrementCount()
     {
         currentCount++;
+        ShowAddAlert();
+    }
+
+    public void ShowAddAlert()
+    {
+        Toast.ShowSuccess("This is Success message with title", "SUCCESS");
     }
 }

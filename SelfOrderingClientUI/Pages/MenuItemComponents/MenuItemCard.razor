@@ -1,5 +1,4 @@
-﻿
-<div class="card d-flex" style="width: 24rem;">
+﻿<div class="card d-flex" style="width: 24rem;">
     <img class="card-img-top" src="@Image" alt="Card image cap">
     <div class="card-body">
         <h5 class="card-title">@CardTitle</h5>
@@ -7,41 +6,16 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 p-0">
-                    <button class="btn-outline-info btn-block" type="submit" @onclick="@(x=>NavigateToInfoPageWithId(@Id))">Learn more</button>
+                    <button class="btn-outline-info btn-block" type="submit" @onclick="@(x => NavigateToInfoPageWithId(@Id))">Learn more</button>
                 </div>
                 <div class="col-4 p-0">
-                    <a href="#" class="btn btn-primary btn-block">Add</a>
+                    <button class="btn btn-primary btn-block" @onclick="AddItemToOrder">Add</button>
                 </div>
                 <div class="col-8 p-0">
-                    <a href="#" class="btn btn-danger btn-block">Remove</a>
+                    <a href="#" class="btn btn-danger btn-block" @onclick="AddItemToOrder">Remove</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-@code {
-    [Parameter]
-    public string CardTitle { get; set; }
-    [Parameter]
-    public string CardDesc { get; set; }
-    [Parameter]
-    public string Image { get; set; }
-    [Parameter]
-    public int Id { get; set; }
-
-    [Inject]
-    NavigationManager Navigation { get; set; }
-
-    private void NavigateToInfoPageWithId(int p_id)
-    {
-        Navigation.NavigateTo("/item/" + p_id);
-    }
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        Id = Id;
-    }
-}
 

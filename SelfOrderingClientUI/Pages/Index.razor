@@ -4,39 +4,49 @@
 @page "/Main"
 @page "/Dessert"
 
-@layout MainLayout
-
-    <div class="bg-light">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-6 col-lg-3">
-                    <NavLink class="nav-link active nav-tabs" href="/Starter">
-                        Starters
-                    </NavLink>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <NavLink class="nav-link nav-tabs" href="/Main">
-                        Mains
-                    </NavLink>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <NavLink class="nav-link nav-tabs" href="/Dessert">
-                        Desserts
-                    </NavLink>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <NavLink class="nav-link nav-tabs" href="/">
-                        Drinks
-                    </NavLink>
-                </div>
+<div class="bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6 col-lg-3">
+                <NavLink class="nav-link active nav-tabs" href="/Starter">
+                    Starters
+                </NavLink>
+            </div>
+            <div class="col-6 col-lg-3">
+                <NavLink class="nav-link nav-tabs" href="/Main">
+                    Mains
+                </NavLink>
+            </div>
+            <div class="col-6 col-lg-3">
+                <NavLink class="nav-link nav-tabs" href="/Dessert">
+                    Desserts
+                </NavLink>
+            </div>
+            <div class="col-6 col-lg-3">
+                <NavLink class="nav-link nav-tabs" href="/">
+                    Drinks
+                </NavLink>
             </div>
         </div>
     </div>
+</div>
 
-    @*<div>
-            <MenuPage @ref="refMenuPage" MenuPageName=@menuPageTitle></MenuPage>
-        </div>*@
+<br />
 
-    <br />
+@*<BlazoredToasts Position="ToastPosition.TopRight"
+    Timeout="2"
+    IconType="IconType.Material"
+    ErrorIcon="error_outline"
+    InfoIcon="school"
+    SuccessIcon="done_outline"
+    WarningIcon="warning" />*@
+@if(closeDialog==false)
+{
+    <Test OnClose="TableIdDialogClose"></Test> 
+}
 
-    <MenuTypeComponent PageName=@menuPageTitle></MenuTypeComponent>
+
+
+
+<MenuTypeComponent PageName=@menuPageTitle></MenuTypeComponent>
+
