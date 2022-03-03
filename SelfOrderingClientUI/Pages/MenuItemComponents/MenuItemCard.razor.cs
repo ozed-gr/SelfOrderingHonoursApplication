@@ -18,7 +18,10 @@ namespace SelfOrderingClientUI.Pages.MenuItemComponents
         [Parameter]
         public int Id { get; set; }
         [Parameter]
-        public MenuItemDTO MenuItem { get; set; }  
+        public MenuItemDTO MenuItem { get; set; }
+
+        [CascadingParameter]
+        public Action<MenuItemDTO> AddItemToOrderDel { get; set; }
 
         [Inject]
         NavigationManager Navigation { get; set; }
@@ -28,6 +31,9 @@ namespace SelfOrderingClientUI.Pages.MenuItemComponents
 
         [Inject]
         IChangeOrderAddMenuItem AddMenuItem { get; set; }
+
+        [Inject]
+        OrderDTO Order { get; set; }
 
         protected override void OnInitialized()
         {
@@ -54,6 +60,9 @@ namespace SelfOrderingClientUI.Pages.MenuItemComponents
 
         public void AddItemToOrder()
         {
+            Order.OrderItems.Add(MenuItem);
+
+            //AddItemToOrderDel.Invoke(MenuItem);
             //AddMenuItem.Execute(MenuItem);
         }
     }

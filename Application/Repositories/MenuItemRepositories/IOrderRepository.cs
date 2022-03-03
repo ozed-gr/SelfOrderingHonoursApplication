@@ -6,13 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Repositories.Common;
 using Domain.Entities;
+using Application.DTOs;
 
 namespace Application.Repositories.MenuItemRepositories
 {
     public interface IOrderRepository : IDataRepository<Order>
     {
-        Task<Order> ChangeOrderAddMenuItem(MenuItem p_menuItem);
-        Task<Order> ChangeOrderRemoveMenuItem(int p_menuItem_id);
+        void ChangeOrderAddMenuItem(MenuItem p_menuItem);
+        void ChangeOrderRemoveMenuItem(MenuItem p_menuItem);
         Task<List<MenuItem>> GetAllOrderMenuItems(int p_order_id);
+        Task Create(Order p_order);
     }
 }

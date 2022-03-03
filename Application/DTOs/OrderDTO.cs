@@ -14,7 +14,8 @@ namespace Application.DTOs
         public DateTime TimePlaced { get; set; }
         public double Total { get; set; }
 
-        public List<MenuItemDTO> OrderItems { get; set; }
+        public List<MenuItemDTO> OrderItems { get; set; } = new List<MenuItemDTO>();
+        public Dictionary<string, int> ItemQuantity { get; set; }
 
         public OrderDTO()
         {
@@ -25,6 +26,34 @@ namespace Application.DTOs
         {
             TableId = t_id;
             TimePlaced = DateTime.Now;
+        }
+
+        //Dictionary<string, int>
+        public void GroupMenuItemQunatity()
+        {
+            Dictionary<int, string> keyValuePairs = new Dictionary<int, string>();
+            int counter = 0;
+
+            foreach (var item in OrderItems)
+            {
+                keyValuePairs.Add(counter++, item.Name);
+            }
+
+            Dictionary<string, int> valCount = new Dictionary<string, int>();
+
+            foreach (var i in keyValuePairs.Values)
+            {
+                if (valCount.ContainsKey(i))
+                {
+                    valCount[i]++;
+                }
+                else
+                {
+                    valCount[i] = 1;
+                }
+            }
+
+            ItemQuantity = valCount;
         }
     }
 }

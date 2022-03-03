@@ -10,6 +10,6 @@ namespace Application.UseCases.OrderUseCases
 {
     public interface IChangeOrderAddMenuItem
     {
-        Task Execute(MenuItemDTO p_menuItem);
+        void Execute(MenuItemDTO p_menuItem);
     }
 }

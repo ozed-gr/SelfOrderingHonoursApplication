@@ -11,7 +11,7 @@ namespace SelfOrderingClientUI.Pages.MenuItemComponents
     public partial class MenuTypeComponent
     {
         [Inject]
-        IGetAllMenuTypeMenuItems createMenuItem { get; set; }
+        IGetAllMenuTypeMenuItems createMenuItemsList { get; set; }
         [Inject]
         NavigationManager Navigation { get; set; }
 
@@ -37,11 +37,11 @@ namespace SelfOrderingClientUI.Pages.MenuItemComponents
 
             if (PageName.Equals(""))
             {
-                menuList = createMenuItem.Execute("Starter").Result;
+                menuList = createMenuItemsList.Execute("Starter").Result;
             }
             else
             {
-                menuList = createMenuItem.Execute(PageName).Result;
+                menuList = createMenuItemsList.Execute(PageName).Result;
             }
             Console.WriteLine(ShouldRender().ToString());
             Console.WriteLine("Child OnParametersSet");

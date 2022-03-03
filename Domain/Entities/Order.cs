@@ -10,15 +10,13 @@ namespace Domain.Entities
 {
     public class Order
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
         public int Id { get; set; }
         public int TableId { get; set; }
         public DateTime TimePlaced { get; set; }
         public double Total { get; set; }
 
         public List<OrderItems> OrderItems { get; set; }
-
+        public List<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
         public Order()
         {
             TimePlaced = DateTime.Now;
@@ -29,6 +27,11 @@ namespace Domain.Entities
             Id = o_id;
             TableId = t_id;
             TimePlaced = DateTime.Now;
+        }
+
+        public Order(int p_id, int p_tid, DateTime p_time, double p_total)
+        {
+
         }
 
     }

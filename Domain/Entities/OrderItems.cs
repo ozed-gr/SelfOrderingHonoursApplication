@@ -21,10 +21,11 @@ namespace Domain.Entities
 
         }
 
-        public OrderItems(Order p_order, MenuItem p_menuItem)
+        public OrderItems(Order p_order, MenuItem p_menuItem, int p_quantity)
         {
             Order = p_order;
             MenuItem = p_menuItem;
+            Quantity = p_quantity;
         }
     }
 }

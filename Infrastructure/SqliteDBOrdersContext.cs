@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.DTOs;
 using Application.Repositories.MenuItemRepositories;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
@@ -21,26 +22,36 @@ namespace Infrastructure
             order.OrderItems = new List<OrderItems>();
         }
 
-        public Task<Order> ChangeOrderAddMenuItem(MenuItem p_menuItem)
+        public void ChangeOrderTable(int p_tableId)
         {
-            //order.OrderItems.Add();
-            //order.OrderItems.Add(new OrderItems(order, p_menuItem));
-            //var query = from t in _dbContext.
-            //            where t.MenuItemId == p_id
-            //            select t;
-            OrderItems orderItems = new OrderItems(order,p_menuItem);
-            _dbContext.OrderItems.Add(orderItems);
-            throw new NotImplementedException();
+            order.TableId = p_tableId;
         }
 
-        public Task<Order> ChangeOrderRemoveMenuItem(int p_menuItem_id)
+        public void ChangeOrderAddMenuItem(MenuItem p_menuItem)
         {
-            throw new NotImplementedException();
+            order.MenuItems.Add(p_menuItem);
         }
 
-        public Task<Order> Create(int p_id)
+        public void ChangeOrderRemoveMenuItem(MenuItem p_menuItem)
         {
-            throw new NotImplementedException();
+            order.MenuItems.Remove(p_menuItem);
+        }
+
+        public Task Create(Order p_order)
+        {
+            //get last order Id
+            int lastId = _dbContext.Orders.Count();
+            lastId++;
+
+            p_order.Id = lastId;
+
+            //Order temp_order = new Order(lastId, 7);
+            //_dbContext.Orders.Add(temp_order);
+            //p_order.OrderItems = new List<OrderItems>();
+            _dbContext.Orders.Add(p_order);
+
+            _dbContext.SaveChanges();
+            return Task.CompletedTask;
         }
 
         public Task<Order> GetAll()
@@ -50,7 +61,7 @@ namespace Infrastructure
 
         public Task<List<MenuItem>> GetAllOrderMenuItems(int p_order_id)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(order.MenuItems);
         }
 
         public Task<Order> GetById(int p_id)
@@ -59,32 +70,58 @@ namespace Infrastructure
         }
 
         private int GetLastOrderIdFromOrderTable()
-        {
-            //int count = _dbContext.Orders.Count();
-
-            //if(count==0)
-            //{
-            //    _dbContext.Orders.Add(order);
-            //}
-            //else
-            //{
-
-            //}
-
-
-            //try
-            //{
-            //    var lastOrder = _dbContext.Orders.OrderByDescending(p => p.Id)
-            //        .FirstOrDefault().Id;
-            //}
-            //catch (Exception)
-            //{
-
-            //    throw;
-            //}
-
-            
+        {            
             return 1;
+        }
+
+        public void CommitOrder()
+        {
+            Dictionary<string, int> listOfMenuItems = GroupMenuItemQunatity();
+
+            foreach (var m in order.MenuItems)
+            {
+                _dbContext.OrderItems.Add(new OrderItems
+                {
+                    Order = order,
+                    OrderId = order.Id,
+                    MenuItem = m,
+                    MenuItemId = m.Id,
+                    Quantity = listOfMenuItems[m.Name]
+                });
+            }
+
+        }
+
+        private Dictionary<string, int> GroupMenuItemQunatity()
+        {
+            Dictionary<int,string> keyValuePairs = new Dictionary<int, string>();
+            int counter = 0;
+
+            foreach(var item in order.MenuItems)
+            {
+                keyValuePairs.Add(counter++, item.Name);
+            }
+
+            Dictionary<string, int> valCount = new Dictionary<string, int>();
+
+            foreach (var i in keyValuePairs.Values)
+            {
+                if (valCount.ContainsKey(i))
+                {
+                    valCount[i]++;
+                }
+                else
+                {
+                    valCount[i] = 1;
+                } 
+            }
+
+            return valCount;
+        }
+
+        public Task<Order> Create(int p_id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

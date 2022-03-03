@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject IJSRuntime jsRuntime
 
 <div class="page">
     <div class="sidebar">
@@ -6,10 +7,10 @@
     </div>
 
     <div class="main">
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        <div class="top-row px-5">
+            <button class="btn btn-secondary btn-block" @onclick="() => GoBack()">Back</button>
+            <a href="Cart" class="oi oi-cart">Cart</a>
         </div>
-
         <div class="content px-4">
             @Body
         </div>
@@ -17,4 +18,10 @@
 </div>
 
 
+@code{
 
+    private void GoBack()
+    {
+        jsRuntime.InvokeVoidAsync("history.back");
+    }
+}

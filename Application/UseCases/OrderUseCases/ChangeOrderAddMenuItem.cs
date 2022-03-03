@@ -21,11 +21,11 @@ namespace Application.UseCases.OrderUseCases
             _mapper = mapper;
         }
 
-        public Task Execute(MenuItemDTO p_menuItem)
+        public void Execute(MenuItemDTO p_menuItem)
         {
             MenuItem menuItem = _mapper.Map<MenuItemDTO, MenuItem>(p_menuItem);
 
-            return _orderRepository.ChangeOrderAddMenuItem(menuItem);
+             _orderRepository.ChangeOrderAddMenuItem(menuItem);
         }
     }
 }

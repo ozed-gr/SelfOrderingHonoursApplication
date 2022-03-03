@@ -23,6 +23,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Blazored.SessionStorage;
+using Syncfusion.Blazor;
 
 namespace SelfOrderingClientUI
 {
@@ -45,6 +46,8 @@ namespace SelfOrderingClientUI
             
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            services.AddSyncfusionBlazor(options => { options.IgnoreScriptIsolation = true; });
+
             //An object repository that has the framework implementation from the Infrastructure layer will be created
             services.AddScoped<IMenuItemRepository, SqliteDB>();
             services.AddScoped<IOrderRepository, SqliteDBOrdersContext>();
@@ -53,6 +56,9 @@ namespace SelfOrderingClientUI
             services.AddTransient<IGetMenuItemById, GetMenuItemById>();
             services.AddTransient<IGetAllMenuTypeMenuItems, GetAllMenuTypeMenuItems>();
             services.AddTransient<IChangeOrderAddMenuItem, ChangeOrderAddMenuItem>();
+            services.AddTransient<ICreateOrder, CreateOrder>();
+
+            services.AddScoped<OrderDTO>();
 
             services.AddBlazoredToast();
 
