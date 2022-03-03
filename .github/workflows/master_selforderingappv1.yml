@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'SelfOrderingAppV1'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A3DB201AC27B4B1FA701AAAB62F1C2EE }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F845406CC1874229A2EAF9042605714A }}
           package: .
