@@ -3,7 +3,7 @@
 
 @foreach (var item in Order.ItemQuantity)
 {
-    <CartMenuItemCard ItemName="@item.Key" Quantity="item.Value" Total="Order.OrderItems.Where(x=>x.Name==item.Key).First().Price * item.Value" RemoveCallBack="() => RemoveItem(item.Key)"></CartMenuItemCard>
+    <CartMenuItemCard ItemName="@item.Key" Quantity="item.Value" Total="Order.OrderItems.Where(x=>x.Name==item.Key).First().Price * item.Value" RemoveCallBack="() => RemoveItem(item.Key)" AddCallBack="() => AddItem(item.Key)"></CartMenuItemCard>
 }
 
 @if(Order.ItemQuantity.Count == 0 || Order.OrderItems.Count == 0)

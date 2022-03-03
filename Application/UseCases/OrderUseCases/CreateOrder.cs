@@ -23,10 +23,8 @@ namespace Application.UseCases.OrderUseCases
 
         public Task Execute(OrderDTO p_orderDTO)
         {
-            //convert p_orderDTO to Order
-            //Order order = _mapper.Map<OrderDTO, Order>(p_orderDTO);
-            //var order = _mapper.Map<Order>(p_orderDTO);
 
+            //Mapping manually 
             Order order = new Order();
             List<OrderItems> orderItemsList = new List<OrderItems>();
             OrderItems orderItem;
@@ -37,24 +35,19 @@ namespace Application.UseCases.OrderUseCases
             order.TimePlaced = p_orderDTO.TimePlaced;
             order.Total = p_orderDTO.Total;
 
-            //foreach (var item in p_orderDTO.OrderItems.Select(x => x).Distinct())
-            //{
-            //    var menuItem = _mapper.Map<MenuItem>(item);
-            //    var quant = p_orderDTO.OrderItems.Where(i => i.Id == item.Id).Count();
-            //    orderItem = new OrderItems(order, menuItem, quant);
-            //    orderItemsList.Add(orderItem);
-            //}
 
-            foreach (var item in p_orderDTO.OrderItems.Select(x => x).Distinct())
+            //Select distinct menu items and count quantity to create OrderItems record
+            foreach (var item in p_orderDTO.OrderItems.Select(x => x.Id).Distinct())
             {
-                var menuItem = _mapper.Map<MenuItem>(item);
-                var quant = p_orderDTO.OrderItems.Where(i => i.Id == item.Id).Count();
+                MenuItemDTO currentMenuItem = p_orderDTO.OrderItems[item];
+                var menuItem = _mapper.Map<MenuItem>(currentMenuItem);
+                var quant = p_orderDTO.OrderItems.Where(i => i.Id == currentMenuItem.Id).Count();
                 orderItem = new OrderItems();
-                orderItem.MenuItemId = item.Id;
+                orderItem.MenuItemId = currentMenuItem.Id;
                 orderItem.OrderId = order.Id;
                 orderItem.Quantity = quant;
                 orderItemsList.Add(orderItem);
-                order.Total += item.Price * quant;
+                order.Total += currentMenuItem.Price * quant;
             }
 
             order.OrderItems = orderItemsList;

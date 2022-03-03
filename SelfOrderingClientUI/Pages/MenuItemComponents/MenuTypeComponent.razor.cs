@@ -18,11 +18,13 @@ namespace SelfOrderingClientUI.Pages.MenuItemComponents
         [Parameter]
         public string PageName { get; set; }
 
+        [Parameter]
+        public EventCallback ToastMsg { get; set; }
+
         private string menuPageTitle;
         private List<MenuItemDTO> menuList;
         private string _image = "";
         private int count = 0;
-
 
         //On first time being rendered
         protected override void OnInitialized()
@@ -53,5 +55,9 @@ namespace SelfOrderingClientUI.Pages.MenuItemComponents
             Console.WriteLine("Child OnAfterRender, FirstRender: ", firstRender.ToString());
         }
 
+        public void ToastMessage()
+        {
+            ToastMsg.InvokeAsync();
+        }
     }
 }

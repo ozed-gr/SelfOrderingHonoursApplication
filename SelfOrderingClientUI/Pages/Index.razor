@@ -33,15 +33,6 @@
 
 <br />
 
-@*<BlazoredToasts Position="ToastPosition.TopRight"
-    Timeout="2"
-    IconType="IconType.Material"
-    ErrorIcon="error_outline"
-    InfoIcon="school"
-    SuccessIcon="done_outline"
-    WarningIcon="warning" />*@
-
-
 <!--Checks if table is assinged, if no show pop-up dialog-->
 @if (!tableAssigned)
 {
@@ -51,6 +42,9 @@
     }
 }
 
-<MenuTypeComponent PageName=@menuPageTitle></MenuTypeComponent>
+<MenuTypeComponent PageName=@menuPageTitle ToastMsg="ToastSuccess"></MenuTypeComponent>
+
+
+
 
 

@@ -3,7 +3,7 @@
         @foreach (var item in menuList)
         {
             <div class="col-sm-12 col-lg-6">
-                <MenuItemCard MenuItem="@item" Id="item.Id"></MenuItemCard>
+                <MenuItemCard MenuItem="@item" Id="@item.Id" CardDesc="@item.Description" AddToastMsg="@ToastMsg"></MenuItemCard>
             </div>
         }
     </div>

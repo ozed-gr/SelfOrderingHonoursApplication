@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.UseCases.OrderUseCases;
+using Blazored.Toast.Services;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace SelfOrderingClientUI.Pages.ShoppingCartComponents
 {
     public partial class Cart
     {
+        [Inject]
+        public IToastService Toast { get; set; }
         [Inject]
         OrderDTO Order { get; set; }
         [Inject]
@@ -48,11 +51,12 @@ namespace SelfOrderingClientUI.Pages.ShoppingCartComponents
         {
             if(Order.OrderItems.Count() != 0)
             CreateOrder.Execute(Order);
+            Toast.ShowInfo("Order has been successfully created");
         }
 
         private void RemoveItem(string p_itemName)
         {
-            var a = Order.ItemQuantity[p_itemName];
+            var orderQuantity = Order.ItemQuantity[p_itemName];
             if(Order.ItemQuantity[p_itemName]==1)
             {
                 Order.ItemQuantity.Remove(p_itemName);
@@ -61,11 +65,24 @@ namespace SelfOrderingClientUI.Pages.ShoppingCartComponents
             }
             else
             {
-                a = a - 1;
+                orderQuantity = orderQuantity - 1;
                 Order.ItemQuantity[p_itemName] = Order.ItemQuantity[p_itemName] - 1;
                 var itemToRemove = Order.OrderItems.Where(x => x.Name == p_itemName).FirstOrDefault();
                 Order.OrderItems.Remove(itemToRemove);
             }
+            ShouldRender();
+            //StateHasChanged();
+        }
+
+        private void AddItem(string p_itemName)
+        {
+            var orderQuantity = Order.ItemQuantity[p_itemName];
+
+            orderQuantity++;
+            Order.ItemQuantity[p_itemName] = Order.ItemQuantity[p_itemName] + 1;
+            var itemToAdd = Order.OrderItems.Where(x => x.Name == p_itemName).FirstOrDefault();
+            Order.OrderItems.Add(itemToAdd);
+       
             ShouldRender();
             //StateHasChanged();
         }

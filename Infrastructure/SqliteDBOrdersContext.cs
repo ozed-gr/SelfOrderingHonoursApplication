@@ -45,9 +45,6 @@ namespace Infrastructure
 
             p_order.Id = lastId;
 
-            //Order temp_order = new Order(lastId, 7);
-            //_dbContext.Orders.Add(temp_order);
-            //p_order.OrderItems = new List<OrderItems>();
             _dbContext.Orders.Add(p_order);
 
             _dbContext.SaveChanges();

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazored.SessionStorage;
+using Blazored.Toast.Services;
 
 namespace SelfOrderingClientUI.Pages
 {
@@ -20,6 +21,9 @@ namespace SelfOrderingClientUI.Pages
 
         [Inject]
         OrderDTO Order { get; set; }
+
+        [Inject]
+        IToastService Toast { get; set; }
 
         private string menuPageTitle;
         private string newMenuPageTitle;
@@ -101,6 +105,11 @@ namespace SelfOrderingClientUI.Pages
         public void AddItemToOrder(MenuItemDTO menuItemDTO)
         {
 
+        }
+
+        public void ToastSuccess()
+        {
+            Toast.ShowSuccess("Added to cart");
         }
     }
 }

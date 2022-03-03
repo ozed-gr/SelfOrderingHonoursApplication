@@ -17,10 +17,17 @@ namespace SelfOrderingClientUI.Pages.ShoppingCartComponents
 
         [Parameter]
         public EventCallback<string> RemoveCallBack { get; set; }
+        [Parameter]
+        public EventCallback<string> AddCallBack { get; set; }
 
         public void RemoveItem(string p_itemName)
         {
             RemoveCallBack.InvokeAsync(ItemName);
+        }
+
+        public void AddItem(string p_itemName)
+        {
+            AddCallBack.InvokeAsync(ItemName);
         }
     }
 }

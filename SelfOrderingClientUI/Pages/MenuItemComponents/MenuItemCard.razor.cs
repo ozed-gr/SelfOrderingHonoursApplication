@@ -13,12 +13,16 @@ namespace SelfOrderingClientUI.Pages.MenuItemComponents
     public partial class MenuItemCard
     {
         public string CardTitle { get; set; }
+        [Parameter]
         public string CardDesc { get; set; }
         public string Image { get; set; }
         [Parameter]
         public int Id { get; set; }
         [Parameter]
         public MenuItemDTO MenuItem { get; set; }
+
+        [Parameter]
+        public EventCallback AddToastMsg { get; set; }
 
         [CascadingParameter]
         public Action<MenuItemDTO> AddItemToOrderDel { get; set; }
@@ -39,7 +43,7 @@ namespace SelfOrderingClientUI.Pages.MenuItemComponents
         {
             base.OnInitialized();
             CardTitle = MenuItem.Name;
-            CardDesc = MenuItem.Category;
+            CardDesc = MenuItem.Description;
             Image = MenuItem.Image;
         }
 
@@ -53,17 +57,19 @@ namespace SelfOrderingClientUI.Pages.MenuItemComponents
             base.OnParametersSet();
             Id = Id;
             CardTitle = MenuItem.Name;
-            CardDesc = MenuItem.Category;
+            CardDesc = MenuItem.Description;
             Image = MenuItem.Image;
-            //StateHasChanged();
         }
 
         public void AddItemToOrder()
         {
             Order.OrderItems.Add(MenuItem);
+            ShowToastMessage();
+        }
 
-            //AddItemToOrderDel.Invoke(MenuItem);
-            //AddMenuItem.Execute(MenuItem);
+        public void ShowToastMessage()
+        {
+            AddToastMsg.InvokeAsync();
         }
     }
 }
