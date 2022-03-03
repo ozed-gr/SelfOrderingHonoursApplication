@@ -37,13 +37,14 @@ namespace Application.UseCases.OrderUseCases
 
 
             //Select distinct menu items and count quantity to create OrderItems record
-            foreach (var item in p_orderDTO.OrderItems.Select(x => x.Id).Distinct())
+            foreach (var id in p_orderDTO.OrderItems.Select(x => x.Id).Distinct())
             {
-                MenuItemDTO currentMenuItem = p_orderDTO.OrderItems[item];
+                //select element where id = item
+                MenuItemDTO currentMenuItem = p_orderDTO.OrderItems.Where(x => x.Id == id).FirstOrDefault();
                 var menuItem = _mapper.Map<MenuItem>(currentMenuItem);
-                var quant = p_orderDTO.OrderItems.Where(i => i.Id == currentMenuItem.Id).Count();
+                var quant = p_orderDTO.OrderItems.Where(i => i.Id == id).Count();
                 orderItem = new OrderItems();
-                orderItem.MenuItemId = currentMenuItem.Id;
+                orderItem.MenuItemId = id;
                 orderItem.OrderId = order.Id;
                 orderItem.Quantity = quant;
                 orderItemsList.Add(orderItem);
