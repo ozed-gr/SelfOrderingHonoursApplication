@@ -15,5 +15,18 @@ namespace Application.DTOs
         public string Description { get; set; }
         public string Image { get; set; }
         public List<IngredientDTO> ItemIngredients { get; set; }
+
+        public MenuItemDTO()
+        {
+
+        }
+
+        public MenuItemDTO(string p_name, string p_desc, string p_category, double p_price)
+        {
+            Name = p_name;
+            Description = p_desc;
+            Category = p_category;
+            Price = p_price;
+        }
     }
 }

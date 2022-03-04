@@ -24,6 +24,24 @@ namespace Infrastructure
             throw new NotImplementedException();
         }
 
+        public Task Create(MenuItem p_menuItem)
+        {
+            if(p_menuItem != null)
+            { 
+                try
+                {
+                    _dbContext.MenuItems.Add(p_menuItem);
+                    _dbContext.SaveChanges();
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+            return Task.CompletedTask;
+        }
+
         public Task<MenuItem> GetAll()
         {
             throw new NotImplementedException();

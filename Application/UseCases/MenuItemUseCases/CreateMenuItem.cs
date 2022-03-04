@@ -21,14 +21,10 @@ namespace Application.UseCases.MenuItemUseCases
             _mapper = mapper;
         }
 
-        public async Task Execute(int p_id)
+        public async Task Execute(MenuItem p_menuItem)
         {
-            int id = p_id;
             //await will suspend the Execute method completion until the Create method is completed
-            await _menuItemRepository.Create(id);
-            
-            //for some reason this loops
-            //return await Task.FromResult(await _menuItemRepository.Create(id));
+            await _menuItemRepository.Create(p_menuItem);
         }
     }
 }

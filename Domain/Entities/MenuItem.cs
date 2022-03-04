@@ -28,10 +28,11 @@ namespace Domain.Entities
 
         }
 
-        public MenuItem(string p_name, string p_desc, double p_price)
+        public MenuItem(string p_name, string p_desc, string p_category, double p_price)
         {
             Name = p_name;
             Description = p_desc;
+            Category = p_category;
             Price = p_price;
         }
     }
