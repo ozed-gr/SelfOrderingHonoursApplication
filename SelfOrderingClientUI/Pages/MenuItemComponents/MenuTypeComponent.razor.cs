@@ -11,7 +11,7 @@ namespace SelfOrderingClientUI.Pages.MenuItemComponents
     public partial class MenuTypeComponent
     {
         [Inject]
-        IGetAllMenuTypeMenuItems createMenuItemsList { get; set; }
+        IGetAllMenuItemsByMenuType createMenuItemsList { get; set; }
         [Inject]
         NavigationManager Navigation { get; set; }
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.UseCases.MenuItemUseCases
 {
-    public interface IGetAllMenuTypeMenuItems
+    public interface IGetAllMenuItemsByMenuType
     {
         Task<List<MenuItemDTO>> Execute(string p_menuType);
     }

@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Application.UseCases.MenuItemUseCases
 {
-    public class GetAllMenuTypeMenuItems : IGetAllMenuTypeMenuItems
+    public class GetAllMenuItemsByMenuType : IGetAllMenuItemsByMenuType
     {
         private readonly IMenuItemRepository _menuItemRepository;
         private IMapper _mapper;
 
-        public GetAllMenuTypeMenuItems(IMenuItemRepository menuItemRepository, IMapper mapper)
+        public GetAllMenuItemsByMenuType(IMenuItemRepository menuItemRepository, IMapper mapper)
         {
             _menuItemRepository = menuItemRepository;
             _mapper = mapper;
@@ -23,7 +23,7 @@ namespace Application.UseCases.MenuItemUseCases
 
         public Task<List<MenuItemDTO>> Execute(string p_menuType)
         {
-            var menu = _menuItemRepository.GetMenuItemListByMenuType(p_menuType).Result;
+            var menu = _menuItemRepository.GetListOfMenuItemWithSameMenuType(p_menuType).Result;
             var menuDTO = _mapper.Map<List<MenuItem>, List<MenuItemDTO>>(menu);
 
             return Task.FromResult(menuDTO);

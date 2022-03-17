@@ -1,44 +1,77 @@
-﻿@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+﻿@using Application.UseCases.OrderUseCases;
+@using Application.DTOs;
+@using System.ComponentModel.DataAnnotations;
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject GetTables getTable
 @page "/test"
 
-<div class="modal fade show" id="myModal" style="display:block; background-color:gray;" aria-modal="true" role="dialog" >
+<div class="modal fade show" id="myModal" style="display:block; background-color:gray;" aria-modal="true" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Hello! What table are you on?</h4>
             </div>
             <div class="modal-body">
-                <input type="number" @bind="@Table" />
-                <b />
-                <p>@Table</p>
+                <EditForm Model="@Table" OnValidSubmit="@FormValidSubmit" OnInvalidSubmit=@FormInvalidSubmit>
+                    <DataAnnotationsValidator />
+                    <div class="form-group">
+                        <InputNumber class="form-control" id="TableNumber" @bind-Value="@Table.TableId" />
+                        <ValidationMessage For="() => Table.TableId" />
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                </EditForm>
             </div>
             <div class="modal-footer">
-                <Button class="btn-success" @onclick="DialogOk">OK</Button>
+
+                @*@if (Table >= Min && Table <= Max)
+                {
+                    <Button class="btn-success" @onclick="DialogOk">OK</Button>
+                }
+                else
+                {<Button class="btn-success disabled">OK</Button>}*@
             </div>
         </div>
     </div>
 </div>
 
 @code {
-    private int Table { get; set; }
+    public TableDTO Table { get; set; } = new TableDTO();
+
+    private int Min { get; set; }
+    private int Max { get; set; }
+
     [Parameter]
-    public EventCallback<bool> OnClose { get; set;}
+    public EventCallback<bool> OnClose { get; set; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        var tables = getTable.Execute();
+        Min = tables[0];
+        Max = tables[1];
     }
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        StateHasChanged();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await sessionStorage.SetItemAsync("tableId", Table);
+        await sessionStorage.SetItemAsync("tableId", Table.TableId);
         var name = await sessionStorage.GetItemAsync<string>("tableId");
         await sessionStorage.SetItemAsync("tableAssigned", true);
+    }
+
+    public void FormInvalidSubmit(EditContext context)
+    {
+        
+    }
+
+    private void FormValidSubmit(EditContext context)
+    {
+        DialogOk();
     }
 
     private Task DialogOk()

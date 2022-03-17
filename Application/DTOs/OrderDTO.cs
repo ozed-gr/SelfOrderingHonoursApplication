@@ -14,6 +14,7 @@ namespace Application.DTOs
         public DateTime TimePlaced { get; set; }
         public double Total { get; set; }
 
+        public List<OrderItemsDTO> OrderItemsEntities { get; set; } = new List<OrderItemsDTO>();
         public List<MenuItemDTO> OrderItems { get; set; } = new List<MenuItemDTO>();
         public Dictionary<string, int> ItemQuantity { get; set; }
 
@@ -29,31 +30,31 @@ namespace Application.DTOs
         }
 
         //Dictionary<string, int>
-        public void GroupMenuItemQunatity()
-        {
-            Dictionary<int, string> keyValuePairs = new Dictionary<int, string>();
-            int counter = 0;
+        //public void GroupMenuItemQunatity()
+        //{
+        //    Dictionary<int, string> keyValuePairs = new Dictionary<int, string>();
+        //    int counter = 0;
 
-            foreach (var item in OrderItems)
-            {
-                keyValuePairs.Add(counter++, item.Name);
-            }
+        //    foreach (var item in OrderItems)
+        //    {
+        //        keyValuePairs.Add(counter++, item.Name);
+        //    }
 
-            Dictionary<string, int> valCount = new Dictionary<string, int>();
+        //    Dictionary<string, int> valCount = new Dictionary<string, int>();
 
-            foreach (var i in keyValuePairs.Values)
-            {
-                if (valCount.ContainsKey(i))
-                {
-                    valCount[i]++;
-                }
-                else
-                {
-                    valCount[i] = 1;
-                }
-            }
+        //    foreach (var i in keyValuePairs.Values)
+        //    {
+        //        if (valCount.ContainsKey(i))
+        //        {
+        //            valCount[i]++;
+        //        }
+        //        else
+        //        {
+        //            valCount[i] = 1;
+        //        }
+        //    }
 
-            ItemQuantity = valCount;
-        }
+        //    ItemQuantity = valCount;
+        //}
     }
 }

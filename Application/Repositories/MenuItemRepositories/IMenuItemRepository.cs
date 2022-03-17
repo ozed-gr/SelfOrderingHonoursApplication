@@ -14,9 +14,10 @@ namespace Application.Repositories.MenuItemRepositories
     public interface IMenuItemRepository : IDataRepository<MenuItem>
     {
         //retrieve a list of menu items based on their meny type(starter, main, dessert)
-        Task<List<MenuItem>> GetMenuItemListByMenuType(string p_type);
+        Task<List<MenuItem>> GetListOfMenuItemWithSameMenuType(string p_type);
 
-        //create menu item
-        Task Create(MenuItem p_menuItem);
+        Task<List<MenuItemSauce>> GetMenuItemSauces(int p_menuItemId);
+        Task<Sauce> GetMenuItemSauce(int p_sauceId);
+
     }
 }

@@ -15,6 +15,8 @@ namespace Domain.Entities
         public string Name { get; set; }
         [Required]
         public string Category { get; set; }
+        public string Image { get; set; }
+        public string Description { get; set; }
         public List<ItemIngredient> ItemIngredients { get; set; }
     }
 }

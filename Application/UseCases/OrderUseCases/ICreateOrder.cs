@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace Application.UseCases.OrderUseCases
     {
         //create new empty Order
         Task Execute(OrderDTO p_orderDTO);
+
+        Task SaveToDB(OrderDTO p_orderDTO);
     }
 }

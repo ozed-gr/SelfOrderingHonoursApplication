@@ -10,7 +10,12 @@
                 </div>
                 <br/>
                 <div class="col-12 p-0">
-                    <button class="btn btn-primary btn-block" @onclick="AddItemToOrder">Add</button>
+                    <!--Before adding item to order check if there are any customisation options, if yes allow for selection-->
+                    <button class="btn btn-primary btn-block" @onclick="@AddItemToOrder">Add</button>
+                    @if(ShowCustomisationDialog)
+                    {
+                        <CustomisationComponent Title="@CardTitle" MenuItemId="@Id" CancelDialog="@CancelCustomisationDialog" DoneDialog="@DoneCustomisationDialog"/>
+                    }
                 </div>
             </div>
         </div>

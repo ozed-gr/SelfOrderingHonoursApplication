@@ -26,16 +26,15 @@ namespace SelfOrderingClientUI.Pages
         IToastService Toast { get; set; }
 
         private string menuPageTitle;
-        private string newMenuPageTitle;
+
         private bool closeDialog = false;
 
-        private string _image = "";
         public bool tableAssigned { get; set; }
 
         //On first time being rendered
         protected override void OnInitialized()
         {
-            Order.Id = 3;
+            //Order.Id = 3;
             menuPageTitle = "Starter";
             Navigation.LocationChanged += LocationChanged;
             Console.WriteLine("Index OnInitialised");
@@ -46,8 +45,6 @@ namespace SelfOrderingClientUI.Pages
             //Check if table is assigned a value
             tableAssigned = await sessionStorage.GetItemAsync<bool>("tableAssigned");
         }
-
-
 
         //On first render and every re-rendering event
         protected override void OnAfterRender(bool firstRender)
@@ -78,33 +75,16 @@ namespace SelfOrderingClientUI.Pages
             StateHasChanged();
         }
 
-
-        private void Navigation_LocationChanged(object sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         void IDisposable.Dispose()
         {
             //Unsubscribe from the event when our component is disposed
             Navigation.LocationChanged -= LocationChanged;
         }
 
-        //public void TableIdDialogOpen()
-        //{
-        //    closeDialog = true;
-        //    StateHasChanged();
-        //}
-
         public void TableIdDialogClose(bool p_bool)
         {
             closeDialog = true;
             StateHasChanged();
-        }
-
-        public void AddItemToOrder(MenuItemDTO menuItemDTO)
-        {
-
         }
 
         public void ToastSuccess()

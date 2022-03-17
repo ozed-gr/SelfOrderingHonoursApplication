@@ -33,22 +33,40 @@ namespace Infrastructure.EntityFramework
                 .HasForeignKey(i => i.IngredientId);
 
             //Create a composite primary key for OrderItems
+            //modelBuilder.Entity<OrderItems>()
+            //   .HasKey(oi => new { oi.MenuItemId, oi.OrderId, oi.SauceId });
             modelBuilder.Entity<OrderItems>()
-               .HasKey(ii => new { ii.MenuItemId, ii.OrderId });
+               .HasKey(oi => new { oi.OrderItemsId });
 
-            //Create relationship between MenuItem and the joinTable ItemIngredient
+            //Create 1-to-many relationship between Order(1) and the joinTable OrderItems(M)
+            //One Order has many OrderItems
             modelBuilder.Entity<OrderItems>()
                 .HasOne(o => o.Order)
                 .WithMany(oi => oi.OrderItems)
                 .HasForeignKey(o => o.OrderId);
-
-
+            
             modelBuilder.Entity<OrderItems>()
                 .HasOne(i => i.MenuItem)
-                .WithMany(ii => ii.OrderItems)
+                .WithMany(oi => oi.OrderItems)
                 .HasForeignKey(i => i.MenuItemId);
 
+            modelBuilder.Entity<OrderItems>()
+                .HasOne(i => i.Sauce)
+                .WithMany(oi => oi.OrderItems)
+                .HasForeignKey(i => i.SauceId)
+                .IsRequired(false);
+
+            //Create a composite primary key for MenuItemSauce
+            modelBuilder.Entity<MenuItemSauce>()
+               .HasKey(mis => new { mis.MenuItemId, mis.SauceId});
+
+            modelBuilder.Entity<MenuItemSauce>()
+                .HasOne(i => i.Sauce)
+                .WithMany(oi => oi.MenuItemSaucesCombination)
+                .HasForeignKey(i => i.SauceId);
+
             base.OnModelCreating(modelBuilder);
+
 
         }
 
@@ -57,6 +75,12 @@ namespace Infrastructure.EntityFramework
         public DbSet<ItemIngredient> ItemIngredients { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItems> OrderItems { get; set; }
+        public DbSet<Table> Tables { get; set; }
+
+        //Customisation
+        public DbSet<Sauce> Sauces { get; set; }
+        public DbSet<MenuItemSauce> MenuItemSauces { get; set; }
+
 
 
     }

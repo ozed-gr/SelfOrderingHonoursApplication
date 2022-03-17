@@ -19,11 +19,6 @@ namespace Infrastructure
             _dbContext = dbContext;
         }
 
-        public Task<MenuItem> Create(int p_id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task Create(MenuItem p_menuItem)
         {
             if(p_menuItem != null)
@@ -55,8 +50,19 @@ namespace Infrastructure
             var query = from t in _dbContext.ItemIngredients
                         where t.MenuItemId == p_id
                         select t;
+
             //list of ingredient ids that associate to the menu item
             var result = query.ToList();
+
+            foreach(var i in result)
+            {
+                var query2 = from t in _dbContext.Ingredients
+                             where t.Id == i.IngredientId
+                             select t;
+                var temp_result = query2.FirstOrDefault();
+                i.Ingredient = temp_result;
+            }
+
             //clean ItemIngredients
             menuItem.ItemIngredients = new List<ItemIngredient>();
 
@@ -71,7 +77,7 @@ namespace Infrastructure
             return Task.FromResult(menuItem);
         }
 
-        public Task<List<MenuItem>> GetMenuItemListByMenuType(string p_type)
+        public Task<List<MenuItem>> GetListOfMenuItemWithSameMenuType(string p_type)
         {
             try
             {
@@ -90,6 +96,46 @@ namespace Infrastructure
             }
 
             return Task.FromResult(new List<MenuItem>());
+        }
+
+        public Task<Sauce> GetMenuItemSauce(int p_sauceId)
+        {
+            var query = from t in _dbContext.Sauces
+                        where t.Id == p_sauceId
+                        select t;
+
+            var result = query.First();
+
+            return Task.FromResult(result);
+        }
+
+        public Task<List<MenuItemSauce>> GetMenuItemSauces(int p_menuItemId)
+        {
+            List<MenuItemSauce> result = new List<MenuItemSauce>();
+
+            try
+            {
+                var query = from t in _dbContext.MenuItemSauces
+                            join j in _dbContext.Sauces
+                            on t.SauceId equals j.Id
+                            where t.MenuItemId == p_menuItemId
+                            select new MenuItemSauce
+                            {
+                                MenuItem = t.MenuItem,
+                                MenuItemId = t.MenuItemId,
+                                SauceId = t.SauceId,
+                                Sauce = j,
+                                Default = t.Default
+                            };
+
+                result = query.ToList();
+            }
+            catch (Exception)
+            {
+               result = new List<MenuItemSauce>();
+            }
+
+            return Task.FromResult(result);
         }
     }
 }

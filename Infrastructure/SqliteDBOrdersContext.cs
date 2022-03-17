@@ -27,6 +27,23 @@ namespace Infrastructure
             order.TableId = p_tableId;
         }
 
+        public int[] GetTables()
+        {
+            int[] range = new int[2] { 1 , 1};
+            try
+            {
+                range[0] = _dbContext.Tables.FirstOrDefault().TableId;
+                range[1] = _dbContext.Tables.OrderByDescending(x=>x).LastOrDefault().TableId;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return range;
+        }
+
         public void ChangeOrderAddMenuItem(MenuItem p_menuItem)
         {
             order.MenuItems.Add(p_menuItem);
@@ -39,15 +56,28 @@ namespace Infrastructure
 
         public Task Create(Order p_order)
         {
-            //get last order Id
-            int lastId = _dbContext.Orders.Count();
-            lastId++;
+            int lastOrderId = _dbContext.Orders.Count();
+            int lastOrderItemsId = _dbContext.OrderItems.Count();
 
-            p_order.Id = lastId;
+            lastOrderId++;
 
+            p_order.Id = lastOrderId;
+
+            foreach(var oi in p_order.OrderItems)
+            {
+                lastOrderItemsId++;
+                oi.OrderId = lastOrderItemsId;
+                //If item doesn't have a sauce, otherwise it get automatically 0 as SauceId
+                if (oi.Sauce.Id == 0)
+                { oi.SauceId = null; }
+                //Making them null because it conflicts with EF Core
+                oi.Sauce = null;
+                oi.MenuItem = null;
+            }
+            
             _dbContext.Orders.Add(p_order);
-
             _dbContext.SaveChanges();
+
             return Task.CompletedTask;
         }
 
@@ -69,51 +99,6 @@ namespace Infrastructure
         private int GetLastOrderIdFromOrderTable()
         {            
             return 1;
-        }
-
-        public void CommitOrder()
-        {
-            Dictionary<string, int> listOfMenuItems = GroupMenuItemQunatity();
-
-            foreach (var m in order.MenuItems)
-            {
-                _dbContext.OrderItems.Add(new OrderItems
-                {
-                    Order = order,
-                    OrderId = order.Id,
-                    MenuItem = m,
-                    MenuItemId = m.Id,
-                    Quantity = listOfMenuItems[m.Name]
-                });
-            }
-
-        }
-
-        private Dictionary<string, int> GroupMenuItemQunatity()
-        {
-            Dictionary<int,string> keyValuePairs = new Dictionary<int, string>();
-            int counter = 0;
-
-            foreach(var item in order.MenuItems)
-            {
-                keyValuePairs.Add(counter++, item.Name);
-            }
-
-            Dictionary<string, int> valCount = new Dictionary<string, int>();
-
-            foreach (var i in keyValuePairs.Values)
-            {
-                if (valCount.ContainsKey(i))
-                {
-                    valCount[i]++;
-                }
-                else
-                {
-                    valCount[i] = 1;
-                } 
-            }
-
-            return valCount;
         }
 
         public Task<Order> Create(int p_id)

@@ -4,8 +4,9 @@
     </div>
     <div class="card-body">
         <h5 class="card-title">@ItemName</h5>
+        <h6>@SauceName</h6>
         <button class="btn btn-danger" @onclick="() => RemoveItem(ItemName)">Remove</button>
-        <button class="btn btn-success" @onclick="() => AddItem(ItemName)">Add   </button>
+        <button class="btn btn-success" @onclick="() => AddItem(MenuItem)">Add   </button>
     </div>
     <div class="card-footer">
         <h4 class="text-center">£@Total</h4>

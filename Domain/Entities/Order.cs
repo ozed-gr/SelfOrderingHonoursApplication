@@ -15,7 +15,8 @@ namespace Domain.Entities
         public DateTime TimePlaced { get; set; }
         public double Total { get; set; }
 
-        public List<OrderItems> OrderItems { get; set; }
+        //An order can have a list of orderItems
+        public List<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
         public List<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
         public Order()
         {

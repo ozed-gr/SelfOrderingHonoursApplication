@@ -1,5 +1,6 @@
 using Application.DTOs;
 using Application.Repositories.MenuItemRepositories;
+using Application.UseCases.Menu.Queries;
 using Application.UseCases.MenuItemUseCases;
 using AutoMapper;
 using Domain.Entities;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using Xunit;
 
 namespace TestProject
@@ -28,7 +30,7 @@ namespace TestProject
     {
         private static AutoMapperProfiles profiles = new AutoMapperProfiles();
         private static AutoMapperConfig mapper = new AutoMapperConfig(profiles);
-        
+
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
@@ -65,8 +67,8 @@ namespace TestProject
         }
 
         [Theory]
-        [InlineData("Egg", "Free-Range", "Starter", 7.0)]
-        public void CreateMenuItem(string p_name, string p_desc, string p_category, double p_price)
+        [InlineData(1, "Egg", "Free-Range", "Starter", 7.0)]
+        public void CreateMenuItem(int p_id, string p_name, string p_desc, string p_category, double p_price)
         {
             //Arrange
 
@@ -78,7 +80,7 @@ namespace TestProject
 
             ICreateMenuItem createItemService = new CreateMenuItem(menuItemRepository, mapper._mapper);
 
-            MenuItem menuItem = new MenuItem(p_name, p_desc, p_category, p_price);
+            MenuItem menuItem = new MenuItem(p_id, p_name, p_desc, p_category, p_price);
 
             bool expectedResult = false;
 
@@ -111,13 +113,13 @@ namespace TestProject
 
                 IMenuItemRepository menuItemRepository = new SqliteDB(context);
 
-                IGetAllMenuTypeMenuItems sameTypeItemsService = new GetAllMenuTypeMenuItems(menuItemRepository, mapper._mapper);
+                GetAllMenuItemsByMenuType sameTypeItemsService = new GetAllMenuItemsByMenuType(menuItemRepository, mapper._mapper);
                 ICreateMenuItem createItemService = new CreateMenuItem(menuItemRepository, mapper._mapper);
                 
                 //Create sample records in the in-memory db
-                createItemService.Execute(new MenuItem("Egg", "Free-Range", "Starter", 7.0));
-                createItemService.Execute(new MenuItem("Hamburger", "McDonalds", "Main", 7.0));
-                createItemService.Execute(new MenuItem("Chocolate Cake", "Dark chocolate", "Dessert", 7.0));
+                createItemService.Execute(new MenuItem(1, "Egg", "Free-Range", "Starter", 7.0));
+                createItemService.Execute(new MenuItem(2, "Hamburger", "McDonalds", "Main", 7.0));
+                createItemService.Execute(new MenuItem(3, "Chocolate Cake", "Dark chocolate", "Dessert", 7.0));
 
                 //Expected Result
                 List<MenuItemDTO> expectedResult = new List<MenuItemDTO>() { new MenuItemDTO("Egg", "Free-Range", "Starter", 7.0) };
@@ -131,6 +133,49 @@ namespace TestProject
                 Assert.Equal(expectedResult.Find(x=>x.Category == "Starter").Category,actualResult.Find(x => x.Category == "Starter").Category);
         }
 
+
+
+        [Theory]
+        //Valid id
+        [InlineData(1)]
+        //Item without any sauces assigned to it. It should be handled without crashing the program.
+        [InlineData(0)]
+       /*
+        * Checks if database design is correct and if the query throws an error
+        */
+        public void CheckIfGetSaucesForMenuItemWorksForAllVariations(int p_menuItem)
+        {
+                
+            //Arrange
+
+                //In-memory mock database
+                var options = new DbContextOptionsBuilder<EntityFrameworkDbContext>().UseInMemoryDatabase("MenuItemSauces").Options;
+                //EntityFramework context
+                EntityFrameworkDbContext context = new EntityFrameworkDbContext(options);
+
+                IMenuItemRepository menuItemRepository = new SqliteDB(context);
+
+                GetMenuItemSauces getMenuItemSauces = new GetMenuItemSauces(menuItemRepository,mapper._mapper);
+
+                //Initialise tables
+                context.MenuItemSauces.RemoveRange(context.MenuItemSauces);
+                context.Sauces.RemoveRange(context.Sauces);
+
+                //Insert mock data into Sauces Table
+                context.Sauces.Add(new Sauce(p_id: 1, p_name: "Sauce 1"));
+                context.Sauces.Add(new Sauce(p_id: 2, p_name: "Sauce 2"));
+                //Insert mock data into MenuItemSauces Table
+                context.MenuItemSauces.Add(new MenuItemSauce(p_menuItem_id: 1, p_sauce_id: 2, p_default: false));
+                context.MenuItemSauces.Add(new MenuItemSauce(p_menuItem_id: 1, p_sauce_id: 1, p_default: false));
+
+            //Act
+
+                //list of possible menu sauce ids that the menu item with Id = p_menuItem has
+                var menuItemSauces = getMenuItemSauces.Execute(p_menuItem).Result;
+
+            //Assert
+                Assert.NotNull(menuItemRepository);
+        }
 
     }
 

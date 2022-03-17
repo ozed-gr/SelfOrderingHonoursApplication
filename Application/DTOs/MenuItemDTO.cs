@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace Application.DTOs
         public string Description { get; set; }
         public string Image { get; set; }
         public List<IngredientDTO> ItemIngredients { get; set; }
+        public SauceDTO Sauce { get; set; }
 
         public MenuItemDTO()
         {

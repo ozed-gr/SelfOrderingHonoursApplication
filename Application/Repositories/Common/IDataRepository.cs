@@ -10,6 +10,6 @@ namespace Application.Repositories.Common
     {
         Task<T> GetAll();
         Task<T> GetById(int p_id);
-        Task<T> Create(int p_id);
+        Task Create(T p_entity);
     }
 }

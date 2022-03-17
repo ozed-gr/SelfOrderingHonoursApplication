@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Blazored.SessionStorage;
 using Syncfusion.Blazor;
+using Application.UseCases.Menu.Queries;
 
 namespace SelfOrderingClientUI
 {
@@ -54,9 +55,11 @@ namespace SelfOrderingClientUI
             //Use cases
             services.AddTransient<ICreateMenuItem, CreateMenuItem>();
             services.AddTransient<IGetMenuItemById, GetMenuItemById>();
-            services.AddTransient<IGetAllMenuTypeMenuItems, GetAllMenuTypeMenuItems>();
+            services.AddTransient<IGetAllMenuItemsByMenuType, GetAllMenuItemsByMenuType>();
             services.AddTransient<IChangeOrderAddMenuItem, ChangeOrderAddMenuItem>();
             services.AddTransient<ICreateOrder, CreateOrder>();
+            services.AddTransient<GetMenuItemSauces>();
+            services.AddTransient<GetTables>();
 
             services.AddScoped<OrderDTO>();
 

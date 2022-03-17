@@ -1,31 +1,32 @@
 ﻿@page "/Cart"
 <h3>Cart</h3>
 
-@foreach (var item in Order.ItemQuantity)
+<!--Loop through the order items which show the quantity of the same menu item-->
+@foreach (var item in Order.OrderItemsEntities)
 {
-    <CartMenuItemCard ItemName="@item.Key" Quantity="item.Value" Total="Order.OrderItems.Where(x=>x.Name==item.Key).First().Price * item.Value" RemoveCallBack="() => RemoveItem(item.Key)" AddCallBack="() => AddItem(item.Key)"></CartMenuItemCard>
+    //If item has no customisation then assign default options
+    if (item.Sauce == null)
+    { item.Sauce = new Application.DTOs.SauceDTO(); }
+
+    item.MenuItem.Sauce = item.Sauce;
+    <CartMenuItemCard MenuItem="item.MenuItem" ItemName="@item.MenuItem.Name" Quantity="@item.Quantity"
+                      SauceName="@item.Sauce.Name" Total="item.MenuItem.Price * item.Quantity"
+                      AddCallBack="() => OrderSameAgainMenuItem(item.MenuItem)"
+                      RemoveCallBack="() => RemoveItem(item.MenuItem)"></CartMenuItemCard>
 }
 
-@if(Order.ItemQuantity.Count == 0 || Order.OrderItems.Count == 0)
+@if (Order.OrderItemsEntities.Count == 0)
 {
-    <button class="btn btn-secondary btn-block disabled" @onclick="Commit">Done</button>
+    <button class="btn btn-secondary btn-block disabled">Done</button>
 }
 else
 {
-<div>
-    <span class="d-block text-center text-dark" style="font-size:22.0pt; font-weight:bolder">
-        Total: £@OrderTotal
-    </span>
-    @if (Order.OrderItems.Count == 0)
-    {
-        <button class="btn btn-success btn-block" @onclick="Commit" disabled>Done</button>
-    }
-    else
-    {
+    <div>
+        <span class="d-block text-center text-dark" style="font-size:22.0pt; font-weight:bolder">
+            Total: £@OrderTotal
+        </span>
         <button class="btn btn-success btn-block" @onclick="Commit">Done</button>
-    }
-
-</div>
+    </div>
 }
 
 

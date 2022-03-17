@@ -1,0 +1,36 @@
+﻿<h3>CustomisationComponent</h3>
+
+<div class="modal fade show" id="myModal" style="display:block; background-color:gray;" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> @Title</h4>
+            </div>
+            <div class="modal-body">
+                @if (Sauces != null)
+                {
+                    <h2>Sauces</h2>
+                    <select @bind="@SauceId">
+                        @foreach (var sauce in Sauces)
+                        {
+                            <option value="@sauce.SauceId">@sauce.Sauce.Name</option>
+                        }
+                    </select>
+                }
+                </div>
+            <div class="modal-footer">
+                <!--If user hasn't selected a sauce-->
+                @if (SauceId == 0)
+                {
+                    <button class="btn btn-success" disabled>Done</button>
+                    <button class="btn btn-danger" @onclick="() => Close()">Cancel</button>
+                }
+                else
+                {
+                    <button class="btn btn-success" @onclick="() => Done()">Done</button>
+                    <button class="btn btn-danger" @onclick="() => Close()">Cancel</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

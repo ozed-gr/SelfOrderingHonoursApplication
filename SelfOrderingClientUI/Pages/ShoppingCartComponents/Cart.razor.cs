@@ -19,12 +19,15 @@ namespace SelfOrderingClientUI.Pages.ShoppingCartComponents
         ICreateOrder CreateOrder { get; set; }
         [Inject]
         Blazored.SessionStorage.ISessionStorageService sessionStorage { get; set; }
+        [Inject]
+        NavigationManager uriHelper { get; set; }
 
         public double OrderTotal { get; set; }
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            Order.GroupMenuItemQunatity();      
+            CreateOrder.Execute(Order);
+            //Order.GroupMenuItemQunatity();      
         }
 
         protected override void OnParametersSet()
@@ -36,9 +39,8 @@ namespace SelfOrderingClientUI.Pages.ShoppingCartComponents
         protected override void OnAfterRender(bool firstRender)
         {
             base.OnAfterRender(firstRender);
-            Order.GroupMenuItemQunatity();
+
             CalculateTotal();
-            StateHasChanged();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -49,51 +51,42 @@ namespace SelfOrderingClientUI.Pages.ShoppingCartComponents
 
         private void Commit()
         {
-            if(Order.OrderItems.Count() != 0)
-            CreateOrder.Execute(Order);
-            Toast.ShowInfo("Order has been successfully created");
-        }
-
-        private void RemoveItem(string p_itemName)
-        {
-            var orderQuantity = Order.ItemQuantity[p_itemName];
-            if(Order.ItemQuantity[p_itemName]==1)
+            if (Order.OrderItems.Count() != 0)
             {
-                Order.ItemQuantity.Remove(p_itemName);
-                var itemToRemove = Order.OrderItems.Where(x => x.Name == p_itemName).FirstOrDefault();
-                Order.OrderItems.Remove(itemToRemove);
+                //CreateOrder.Execute(Order);
+                CreateOrder.SaveToDB(Order);
+                Toast.ShowInfo("Order has been successfully created");
+
+                //re-initialise ordering process
+                Order = new OrderDTO();
+                StateHasChanged();
             }
             else
             {
-                orderQuantity = orderQuantity - 1;
-                Order.ItemQuantity[p_itemName] = Order.ItemQuantity[p_itemName] - 1;
-                var itemToRemove = Order.OrderItems.Where(x => x.Name == p_itemName).FirstOrDefault();
-                Order.OrderItems.Remove(itemToRemove);
+                Toast.ShowError("An error occured.");
             }
-            ShouldRender();
-            //StateHasChanged();
         }
 
-        private void AddItem(string p_itemName)
+        private void RemoveItem(MenuItemDTO p_MenuItem)
         {
-            var orderQuantity = Order.ItemQuantity[p_itemName];
+            Order.OrderItems.Remove(p_MenuItem);
+            CreateOrder.Execute(Order);
+        }
 
-            orderQuantity++;
-            Order.ItemQuantity[p_itemName] = Order.ItemQuantity[p_itemName] + 1;
-            var itemToAdd = Order.OrderItems.Where(x => x.Name == p_itemName).FirstOrDefault();
-            Order.OrderItems.Add(itemToAdd);
-       
-            ShouldRender();
-            //StateHasChanged();
+        public void OrderSameAgainMenuItem(MenuItemDTO p_MenuItem)
+        {
+            Order.OrderItems.Add(p_MenuItem);
+            CreateOrder.Execute(Order);  
         }
 
         private void CalculateTotal()
         {
             OrderTotal = 0;
-            foreach(var item in Order.OrderItems)
+            foreach(var item in Order.OrderItemsEntities)
             {
-                OrderTotal += item.Price;
+                OrderTotal += item.MenuItem.Price * item.Quantity;
             }
+            StateHasChanged();
         }
     }
 }

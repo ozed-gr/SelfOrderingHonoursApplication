@@ -21,15 +21,18 @@ namespace Domain.Entities
         public string Description { get; set; }
         public string Image { get; set; }
         public List<ItemIngredient> ItemIngredients { get; set; }
+        //A menu item can have be in many OrderItems
         public List<OrderItems> OrderItems { get; set; }
+        public List<MenuItemSauce> SelectionOfSauces { get; set; }
 
         public MenuItem()
         {
-
+                
         }
 
-        public MenuItem(string p_name, string p_desc, string p_category, double p_price)
+        public MenuItem(int p_id, string p_name, string p_desc, string p_category, double p_price)
         {
+            Id = p_id;
             Name = p_name;
             Description = p_desc;
             Category = p_category;

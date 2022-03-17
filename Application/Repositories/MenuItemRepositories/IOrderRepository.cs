@@ -16,5 +16,7 @@ namespace Application.Repositories.MenuItemRepositories
         void ChangeOrderRemoveMenuItem(MenuItem p_menuItem);
         Task<List<MenuItem>> GetAllOrderMenuItems(int p_order_id);
         Task Create(Order p_order);
+
+        int[] GetTables();
     }
 }
